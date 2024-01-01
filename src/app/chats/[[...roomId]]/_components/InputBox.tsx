@@ -3,14 +3,18 @@
 import { BiSend } from "react-icons/bi";
 import { FaBook } from "react-icons/fa";
 
-import { ChangeEvent, useEffect, useRef } from "react";
+import { ChangeEvent, useContext, useEffect, useRef } from "react";
 import listClassName from "../../../utils/listClassName";
+import RoomContext from "@/app/_contexts/roomContext";
+import { RoomStateInterface } from "@/app/_contexts/roomReducers";
 
 export default function InputBox({
-  addChat
+  room
 }: {
-  addChat?: any,
+  room?: RoomStateInterface
 }) {
+  const { roomState, roomAction } = useContext(RoomContext)
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const maxTextAreaHeight = 200;

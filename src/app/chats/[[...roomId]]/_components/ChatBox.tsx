@@ -1,15 +1,18 @@
 "use client"
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
-import { RoomInterface } from "../../../page";
+import { useContext, useEffect, useRef } from "react";
 import listClassName from "../../../utils/listClassName";
+import UserContext from "@/app/_contexts/userContext";
+import { RoomStateInterface } from "@/app/_contexts/roomReducers";
 
 export default function ChatBox({
   room
 }: {
-  room: RoomInterface | null
+  room?: RoomStateInterface
 }) {
+  const { userState, userAction } = useContext(UserContext)
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -79,7 +82,7 @@ export default function ChatBox({
                 'text-4xl font-bold'
               ])
             }>
-              Hello World
+              Hello, {userState.username}
             </h1>
             <h2 className={
               listClassName([

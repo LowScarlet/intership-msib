@@ -8,16 +8,16 @@ import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 
 import Link from "next/link";
-import { RoomInterface } from "../../../page";
 import listClassName from "../../../utils/listClassName";
 import { SidebarActionType } from "../../../_contexts/sidebarReducers";
+import { RoomStateInterface } from "@/app/_contexts/roomReducers";
 
 export default function Header({
   room,
   navSidebar,
   setNavSidebar,
 }: {
-  room: RoomInterface | null,
+  room?: RoomStateInterface,
   navSidebar: boolean,
   setNavSidebar: React.Dispatch<SidebarActionType>
 }) {

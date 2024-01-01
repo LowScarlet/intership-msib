@@ -8,36 +8,11 @@ import Navigation from "../../_components/Navigation";
 import Sidebar from "../../_components/Sidebar";
 import listClassName from "../../utils/listClassName";
 import { Transition } from "@headlessui/react";
-import SidebarContext from "@/app/_contexts/SidebarContext";
-
-const chatsRaw = [
-  {
-    id: 'sdjasd-sdaskd',
-    question: 'GGWP',
-    answer: 'Thinking...',
-    userId: 'asdasd-asdasd-asdasda',
-    createdAt: 'no prob',
-    updatedAt: 'no prob'
-  },
-]
-
-export interface ChatInterface {
-  id: string,
-  question: string,
-  answer: string,
-  userId: string,
-  createdAt: string,
-  updatedAt: string
-}
-
-export interface RoomInterface {
-  id: string,
-  name: string,
-  chats: ChatInterface[],
-  ownerId: string,
-  createdAt: string,
-  updatedAt: string
-}
+import SidebarContext from "../../_contexts/sidebarContext";
+import UserContext from "@/app/_contexts/userContext";
+import { redirect } from "next/navigation";
+import RoomContext from "@/app/_contexts/roomContext";
+import { RoomStateInterface } from "@/app/_contexts/roomReducers";
 
 export default function Home({
   params
@@ -48,24 +23,14 @@ export default function Home({
 }) {
   const { roomId } = params
 
+  const { userState, userAction } = useContext(UserContext)
+  const { roomState, roomAction } = useContext(RoomContext)
   const { sidebarState, sidebarAction } = useContext(SidebarContext)
 
-  const [room, setRoom] = useState<RoomInterface | null>(null)
+  if (!userState.id) redirect('/auth/login')
+  if (roomState.some(item => item.id === roomId)) redirect('/chats/')
 
-  useEffect(() => {
-    if (roomId) {
-      setRoom({
-        id: '123',
-        name: 'GGWP',
-        chats: chatsRaw,
-        ownerId: '1',
-        createdAt: new Date().toString(),
-        updatedAt: new Date().toString()
-      })
-    } else {
-      setRoom(null)
-    }
-  }, []);
+  const [room, setRoom] = useState<RoomStateInterface | undefined>(roomId ? roomState.find(item => item.id === roomId[0]) : undefined)
 
   return (<>
     <div className={
@@ -110,14 +75,12 @@ export default function Home({
         }>
           <Header room={room} navSidebar={sidebarState} setNavSidebar={sidebarAction} />
           <ChatBox room={room} />
-          <InputBox />
+          <InputBox room={room} />
         </div>
       </main>
     </div>
-    {
-      window.innerWidth < 768 ? (
-        <Sidebar navSidebar={sidebarState} setNavSidebar={sidebarAction} />
-      ) : null
-    }
+    {typeof window !== 'undefined' && window.innerWidth < 768 ? (
+      <Sidebar navSidebar={sidebarState} setNavSidebar={sidebarAction} />
+    ) : null}
   </>)
 }
