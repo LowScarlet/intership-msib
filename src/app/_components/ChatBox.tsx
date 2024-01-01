@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useRef } from "react";
-import listClassName from "../utils/listClassName";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { RoomInterface } from "../page";
+import listClassName from "../utils/listClassName";
 
 export default function ChatBox({
   room

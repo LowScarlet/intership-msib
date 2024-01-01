@@ -7,9 +7,9 @@ import { FcGoogle } from "react-icons/fc";
 
 import Image from "next/image";
 
-import listClassName from "../utils/listClassName";
 import Link from "next/link";
 import { RoomInterface } from "../page";
+import listClassName from "../utils/listClassName";
 
 export default function Header({
   room,

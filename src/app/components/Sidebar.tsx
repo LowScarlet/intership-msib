@@ -1,10 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react";
-import listClassName from "../utils/listClassName";
-import React from "react";
-import { IoClose } from "react-icons/io5";
 import { Dialog } from "@headlessui/react";
+import React, { useEffect, useState } from "react";
+import { IoClose } from "react-icons/io5";
+import listClassName from "../utils/listClassName";
 import Navigation from "./Navigation";
 
 export default function Sidebar({

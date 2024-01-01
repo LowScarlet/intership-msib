@@ -1,7 +1,6 @@
-import './globals.css'
 import type { Metadata } from 'next'
-import { Hanken_Grotesk, Open_Sans } from 'next/font/google'
 import Layout from './components/Layout'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Google AI',

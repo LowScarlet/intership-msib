@@ -4,10 +4,9 @@ import { useState } from "react";
 import ChatBox from "./_components/ChatBox";
 import Header from "./_components/Header";
 import InputBox from "./_components/InputBox";
-import listClassName from "./utils/listClassName";
-import { FaLink } from "react-icons/fa";
 import Navigation from "./components/Navigation";
 import Sidebar from "./components/Sidebar";
+import listClassName from "./utils/listClassName";
 
 const chatsRaw = [
   {

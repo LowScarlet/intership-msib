@@ -1,8 +1,8 @@
 'use client'
 
 import { Hanken_Grotesk } from 'next/font/google'
-import listClassName from '../utils/listClassName'
 import { useEffect, useState } from 'react'
+import listClassName from '../utils/listClassName'
 
 const hanken_grotesk = Hanken_Grotesk({ subsets: ['latin'] })
 
