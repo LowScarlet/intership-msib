@@ -1,87 +1,175 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react/no-unescaped-entities */
 "use client"
-import { FaBars } from "react-icons/fa6";
-import { MdDiversity1, MdWbSunny } from "react-icons/md";
-import { FaRegCircleQuestion } from "react-icons/fa6";
-import { FaPlus } from "react-icons/fa";
-import { IoChatbubbleOutline } from "react-icons/io5";
-import { FaClockRotateLeft } from "react-icons/fa6";
-import { PiSmileySticker } from "react-icons/pi";
-import { BiSend } from "react-icons/bi";
-import { FaBookBookmark } from "react-icons/fa6";
-import { RiStarSLine } from "react-icons/ri";
-import { LuDot } from "react-icons/lu";
-import { FaGear } from "react-icons/fa6";
-import { FaBook } from "react-icons/fa";
 
+import { ReactNode, useEffect, useState } from "react";
+import ChatBox from "./_components/ChatBox";
+import Header from "./_components/Header";
+import InputBox from "./_components/InputBox";
 import listClassName from "./utils/listClassName";
-import { CSSProperties, ChangeEvent, useEffect, useRef, useState } from "react";
-import { Transition } from "@headlessui/react";
+import React from "react";
+import { BsChatSquare } from "react-icons/bs";
+import { Ultra } from "next/font/google";
+import { FaLink } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import { Disclosure, Transition, Menu, Dialog } from "@headlessui/react";
 
-const nav = [
-  'rogram ini adalah sama dengan output',
-  'rogram ini adalah',
-  'rogram ini adalah sama output',
-  'rogram ini adalah sama',
+const chatsRaw = [
+  {
+    id: 'sdjasd-sdaskd',
+    question: 'GGWP',
+    answer: 'Thinking...',
+    userId: 'asdasd-asdasd-asdasda',
+    createdAt: 'no prob',
+    updatedAt: 'no prob'
+  },
 ]
 
-const chats = [
-  {
-    id: 5,
-    avatar: null,
-    username: 'Yuuka Hayase',
-    type: 'text',
-    content: 'no prob'
-  },
-  {
-    id: 4,
-    avatar: null,
-    username: 'LowScarlet',
-    type: 'text',
-    content: 'thanku'
-  },
-  {
-    id: 1,
-    avatar: null,
-    username: 'LowScarlet',
-    type: 'text',
-    content: 'Good Game!!'
-  },
+const navlist = [
+  'asdasdasd',
+  '123 asdasd asdasdasdasda sdasd asdasd asdasd',
+  'dasd sad as sdad'
 ]
+
+const Nav = () => {
+  return (
+    <div className={
+      listClassName([
+        'flex flex-col justify-between h-full'
+      ])
+    }>
+      <ul className={
+        listClassName([
+          'py-2',
+          'space-y-2',
+          'list-disc text-sm truncate list-disc list-inside',
+        ])
+      }>
+        <h1 className={
+          listClassName([
+            'text-base',
+          ])
+        }>Recent Chats</h1>
+        {
+          navlist.map((e, i) => (
+            <li
+              key={i}
+              className={
+                listClassName([
+                  i === 0 ? 'bg-gradient-to-r from-violet-900 to-fuchsia-600 text-white' : '',
+                  'rounded-[25px]',
+                  'px-4 py-1'
+                ])
+              }
+            >{e}</li>
+          ))
+        }
+      </ul>
+      <div>
+        <h1 className={
+          listClassName([
+            'text-sm'
+          ])
+        }>
+          Made for MSIB Project Task <a className="flex items-center gap-x-2 underline decoration-fuchsia-600" href="https://lowscarlet.my.id/" target="_blank"><FaLink className="text-fuchsia-600" />lowscarlet.my.id</a>
+        </h1>
+      </div>
+    </div>
+  )
+}
+
+const Sidebar = ({
+  navSidebar,
+  setNavSidebar
+}: {
+  navSidebar: boolean,
+  setNavSidebar: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
+  const [show, setShow] = useState(false)
+  const handleResize = () => {
+    if (window.innerWidth < 768) {
+      setShow(true)
+    } else {
+      setShow(false)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize)
+  })
+  return (<>
+    {
+      show ? (
+        <Dialog
+          open={navSidebar}
+          onClose={() => setNavSidebar(false)}
+          className="relative z-50"
+        >
+          <div
+            className={
+              listClassName([
+                'fixed inset-0 bg-white/50 dark:bg-black/50',
+                'md:hidden'
+              ])
+            }
+            aria-hidden="true"
+          />
+          <div
+            className={
+              listClassName([
+                'fixed inset-0 flex',
+                'md:hidden',
+                'dark:text-gray-200 text-gray-700'
+              ])
+            }
+          >
+            <Dialog.Panel className="grow max-w-[300px] rounded-r-sm dark:bg-dark-jungle-green bg-violet-50 p-8">
+              <Nav />
+            </Dialog.Panel>
+            <div className={
+              listClassName([
+                'p-4',
+                'text-4xl'
+              ])
+            }>
+              <IoClose />
+            </div>
+          </div>
+        </Dialog>
+      ) : (
+        null
+      )
+    }
+  </>);
+};
+
+export interface ChatInterface {
+  id: string,
+  question: string,
+  answer: string,
+  userId: string,
+  createdAt: string,
+  updatedAt: string
+}
+
+export interface RoomInterface {
+  id: string,
+  name: string,
+  chats: ChatInterface[],
+  ownerId: string,
+  createdAt: string,
+  updatedAt: string
+}
 
 export default function Home() {
-  const [showNav, setShowNav] = useState(true)
+  const [navSidebar, setNavSidebar] = useState<boolean>(false)
 
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const textarea = textareaRef.current;
-
-    if (textarea) {
-      textarea.style.height = 'auto';
-      textarea.style.height = `${Math.min(textarea.scrollHeight, maxTextAreaHeight)}px`;
-    }
-  };
-
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
-    }
-  }, []);
-
-  useEffect(() => {
-    const textarea = textareaRef.current;
-
-    if (textarea) {
-      textarea.style.height = 'auto';
-      textarea.style.height = `${Math.min(textarea.scrollHeight, maxTextAreaHeight)}px`;
-    }
-  }, []);
-
-  const maxTextAreaHeight = 200;
+  const [room, setRoom] = useState<RoomInterface | null>({
+    id: '123',
+    name: 'GGWP',
+    chats: chatsRaw,
+    ownerId: '1',
+    createdAt: new Date().toString(),
+    updatedAt: new Date().toString()
+  })
 
   return (<>
     <div className={
@@ -91,180 +179,39 @@ export default function Home() {
     }>
       <main className={
         listClassName([
-          'w-full h-full',
-          'p-4'
+          'flex w-full h-full',
+          'p-0 md:p-4',
+          'dark:text-gray-200 text-gray-700'
         ])
       }>
+        {
+          navSidebar ? (
+            <div className={
+              listClassName([
+                'hidden md:block',
+                'max-w-[300px]',
+                'px-4 py-4',
+                'text-lg'
+              ])
+            }>
+              <Nav />
+            </div>
+          ) : null
+        }
         <div className={
           listClassName([
-            'h-full flex flex-col bg-chinese-black',
-            'rounded-[25px]',
+            'transition duration-300 ease-in-out',
+            'grow flex flex-col bg-white dark:bg-chinese-black',
+            'md:rounded-[25px]',
             'p-4'
           ])
         }>
-          <header className={
-            listClassName([
-              'flex gap-x-2 items-center',
-              'px-4 py-4',
-              'text-lg'
-            ])
-          }>
-            <button
-              onClick={(e) => {
-                setShowNav(!showNav)
-              }}
-              className={
-                listClassName([
-                  'block rounded-full',
-                  'hover:bg-dark-jungle-green',
-                  'p-2'
-                ])
-              }
-            >
-              <FaBars />
-            </button>
-            <div>
-              AI Assistant
-            </div>
-            <div className={
-              listClassName([
-                'grow',
-                'dark:text-gray-300 text-gray-500'
-              ])
-            }>
-              / Test Session 1
-            </div>
-            <button className={
-              listClassName([
-                'block rounded-full',
-                'hover:bg-dark-jungle-green',
-                'p-2'
-              ])
-            }>
-              <FaPlus />
-            </button>
-            <button className={
-              listClassName([
-                'block rounded-full',
-                'hover:bg-dark-jungle-green',
-                'p-2'
-              ])
-            }>
-              <FaGear />
-            </button>
-            <div>
-              <div className={
-                listClassName([
-                  'bg-white rounded-full',
-                  'h-8 w-8'
-                ])
-              } />
-            </div>
-          </header>
-          <div
-            ref={containerRef}
-            className={
-              listClassName([
-                'grow overflow-y-scroll',
-                'rounded-[25px]',
-                'px-4',
-              ])
-            }
-          >
-            <div className="flex flex-col-reverse">
-              {
-                chats.map((item, index) => (
-                  <div key={item.id} className={chats[(index + 1)]?.username === item.username ? 'mt-1' : 'mt-4'}>
-                    <div className="flex gap-2">
-                      {
-                        chats[(index + 1)]?.username === item.username ? (
-                          <div className="w-10"></div>
-                        ) : (
-                          <div className="h-10 w-10 rounded-full overflow-hidden bg-dark-jungle-green">
-                          </div>
-                        )
-                      }
-                      <div className="grow dark:text-gray-200 text-gray-700">
-                        {
-                          chats[(index + 1)]?.username === item.username ? (
-                            null
-                          ) : (
-                            <h1 className="font-bold">{item.username}</h1>
-                          )
-                        }
-                        {
-                          item.type === 'text' ? (
-                            <p className="dark:text-gray-300 text-gray-500">{item.content}</p>
-                          ) : (<>
-                            <img className="rounded-xl" src="/images/stickers/dance-blob.png" alt="" width={100} height={100} />
-                          </>)
-                        }
-                      </div>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-          <header className={
-            listClassName([
-              'flex gap-x-4 items-center',
-              'px-4 py-4',
-              'text-lg'
-            ])
-          }>
-            <button
-              onClick={(e) => {
-                setShowNav(!showNav)
-              }}
-              className={
-                listClassName([
-                  'block rounded-full',
-                  'hover:bg-dark-jungle-green',
-                  'p-4'
-                ])
-              }
-            >
-              <FaBook />
-            </button>
-            <div className={
-              listClassName([
-                'grow flex items-center overflow-hidden',
-                'rounded-[25px]',
-                'ring-1 ring-white',
-                'px-8 py-4'
-              ])
-            }>
-              <textarea
-                ref={textareaRef}
-                onChange={handleInputChange}
-                cols={30}
-                rows={1}
-                className={
-                  listClassName([
-                    'w-full',
-                    'resize-none',
-                    'focus:outline-none focus:ring-0',
-                    'bg-transparent',
-                    'text-base dark:text-gray-300 text-gray-500'
-                  ])
-                }
-              >
-                Say Something! 👋
-              </textarea>
-            </div>
-            <button className={
-              listClassName([
-                'block rounded-full',
-                'hover:bg-dark-jungle-green',
-                'p-4'
-              ])
-            }>
-              <BiSend />
-            </button>
-          </header>
+          <Header room={room} navSidebar={navSidebar} setNavSidebar={setNavSidebar} />
+          <ChatBox room={room} />
+          <InputBox />
         </div>
       </main>
     </div>
+    <Sidebar navSidebar={navSidebar} setNavSidebar={setNavSidebar} />
   </>)
 }
