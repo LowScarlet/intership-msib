@@ -18,7 +18,7 @@ export default function Navigation() {
         listClassName([
           'py-2',
           'space-y-2',
-          'list-disc text-sm truncate list-disc list-inside',
+          'list-disc text-sm truncate list-inside',
         ])
       }>
         <h1 className={

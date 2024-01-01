@@ -7,6 +7,7 @@ import InputBox from "./_components/InputBox";
 import Navigation from "./components/Navigation";
 import Sidebar from "./components/Sidebar";
 import listClassName from "./utils/listClassName";
+import { Transition } from "@headlessui/react";
 
 const chatsRaw = [
   {
@@ -62,20 +63,26 @@ export default function Home() {
           'dark:text-gray-200 text-gray-700'
         ])
       }>
-        {
-          navSidebar ? (
-            <div className={
-              listClassName([
-                'hidden md:block',
-                'max-w-[300px]',
-                'px-4 py-4',
-                'text-lg'
-              ])
-            }>
-              <Navigation />
-            </div>
-          ) : null
-        }
+        <Transition
+          show={navSidebar}
+          enter="transition-all duration-75"
+          enterFrom="opacity-0 -translate-x-6"
+          enterTo="opacity-100 translate-x-0"
+          leave="transition-all duration-150"
+          leaveFrom="opacity-100 translate-x-0"
+          leaveTo="opacity-0 -translate-x-6"
+        >
+          <div className={
+            listClassName([
+              'hidden md:block',
+              'max-w-[300px] h-full',
+              'px-4 py-4',
+              'text-lg'
+            ])
+          }>
+            <Navigation />
+          </div>
+        </Transition>
         <div className={
           listClassName([
             'transition duration-300 ease-in-out',
