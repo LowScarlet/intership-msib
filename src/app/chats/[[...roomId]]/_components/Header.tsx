@@ -8,8 +8,9 @@ import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 
 import Link from "next/link";
-import { RoomInterface } from "../page";
-import listClassName from "../utils/listClassName";
+import { RoomInterface } from "../../../page";
+import listClassName from "../../../utils/listClassName";
+import { SidebarActionType } from "../../../_contexts/sidebarReducers";
 
 export default function Header({
   room,
@@ -18,7 +19,7 @@ export default function Header({
 }: {
   room: RoomInterface | null,
   navSidebar: boolean,
-  setNavSidebar: React.Dispatch<React.SetStateAction<boolean>>
+  setNavSidebar: React.Dispatch<SidebarActionType>
 }) {
   return (
     <header className={
@@ -31,7 +32,9 @@ export default function Header({
       <button
         onClick={(e) => {
           e.preventDefault()
-          setNavSidebar(!navSidebar)
+          setNavSidebar({
+            type: 'TOGGLE'
+          })
         }}
         className={
           listClassName([
@@ -74,7 +77,7 @@ export default function Header({
           'hover:bg-dark-jungle-green',
           'p-2'
         ])}
-        href={"/"}
+        href={"/chats"}
       >
         <FaPlus />
       </Link>

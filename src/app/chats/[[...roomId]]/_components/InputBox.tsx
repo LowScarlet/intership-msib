@@ -4,7 +4,7 @@ import { BiSend } from "react-icons/bi";
 import { FaBook } from "react-icons/fa";
 
 import { ChangeEvent, useEffect, useRef } from "react";
-import listClassName from "../utils/listClassName";
+import listClassName from "../../../utils/listClassName";
 
 export default function InputBox({
   addChat
